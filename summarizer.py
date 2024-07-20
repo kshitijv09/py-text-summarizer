@@ -9,9 +9,9 @@ def get_text(text_file, text):
         if text_file:
             with open(text_file, 'r') as file:
                 text = file.read()
-            click.echo(f'Extracted Text from {text_file}:\n{text}\n')
+            save_to_file = True
         elif text:
-            click.echo(f'Input Text:\n{text}\n')
+            save_to_file = False
         else:
             click.echo('Please provide either a text file with -t or direct text as an argument.')
             return
@@ -19,10 +19,11 @@ def get_text(text_file, text):
         summary = summarize_text(text)
         click.echo(f'Summary:\n{summary}')
         
-        output_file='summary.txt'
-        with open(output_file, 'w') as file:
-            file.write(summary)
-        click.echo(f'Summary has been written to {output_file}')
+        if save_to_file:
+            output_file = 'summary.txt'
+            with open(output_file, 'w') as file:
+                file.write(summary)
+            click.echo(f'Summary has been written to {output_file}')
         
     except Exception as e:
         click.echo(f"An error occurred: {e}")
